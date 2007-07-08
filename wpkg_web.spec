@@ -1,6 +1,6 @@
 #TODO - scripts,database,config
 Summary:	WPKG web Interface
-Summary(pl.UTF-8): Interfejs WWW dla WPKG
+Summary(pl.UTF-8):	Interfejs WWW dla WPKG
 Name:		wpkg_web
 Version:	1.1.0
 Release:	0.1
@@ -30,6 +30,11 @@ WPKG-web - interface was created to ease the use of WPKG, a great
 Software distribution and update tool designed to help Windows
 Administrators.
 
+%description -l pl.UTF-8
+WPKG-web to interfejs mający na celu ułatwienie korzystania z WPKG -
+świetnego narzędzia do dystrybucji i uaktualniania opracowanego w
+celu pomocy administratorom Windows.
+
 %prep
 %setup -q
 
@@ -46,7 +51,6 @@ Alias /%{name} %{_appdir}
 </Directory>
 EOF
 
-
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_appdir}/{scripts,include,grafx,db},%{_sysconfdir}}
@@ -60,6 +64,9 @@ install include/*.php $RPM_BUILD_ROOT%{_appdir}/include
 install db/*.sql $RPM_BUILD_ROOT%{_appdir}/db
 cp -rf grafx $RPM_BUILD_ROOT%{_appdir}/grafx
  
+%clean
+rm -rf $RPM_BUILD_ROOT
+
 %triggerin -- apache1 < 1.3.37-3, apache1-base
 %webapp_register apache %{_webapp}
 
@@ -78,13 +85,10 @@ cp -rf grafx $RPM_BUILD_ROOT%{_appdir}/grafx
 %triggerun -- lighttpd
 %webapp_unregister lighttpd %{_webapp}
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %files
 %defattr(644,root,root,755)
 %doc CHANGELOG INSTALL
-%attr(750,root,http) %dir %{_appdir}/
+%attr(750,root,http) %dir %{_appdir}
 %{_appdir}/*
 %attr(750,root,http) %dir %{_sysconfdir}
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/*
